@@ -1,0 +1,22 @@
+        self.fall_animal()  
+        score_level = self.score - score_level  # 计分级别  
+
+     
+        return self.value_swapped  # 返回交换值标记  
+
+    def fall_animal(self):  
+        """动物下落动画。"""  
+        clock = pygame.time.Clock()  
+        position = []  
+        ice_position = []  
+
+        # 收集需要下落的动物的位置  
+        for i in range(self.row, self.row + self.height):  
+            for j in range(self.col, self.col + self.width):  
+                if self.animal[i][j] == -2:  
+                    x, y = self.rc_xy(i, j)  
+                    position.append((x, y))  
+                    if self.ice_list[i][j] == 1:  
+                        ice_position.append((x, y))  
+
+    
