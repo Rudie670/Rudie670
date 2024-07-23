@@ -1,0 +1,85 @@
+package cvit.com.view;
+import cvit.com.manager.CourseManager;
+import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.JTextField;
+import java.awt.Rectangle;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+//删除科目
+public class Delete_coursePanel extends JPanel {
+    public Delete_coursePanel() {
+        try {
+            jbInit();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    private void jbInit() throws Exception {
+        this.setLayout(null);
+        this.setBackground(new Color(168, 233, 216));
+        tcno.setBounds(new Rectangle(78, 76, 130, 20));
+        jLabel1.setText("课程编号");
+        jLabel1.setBounds(new Rectangle(8, 81, 66, 15));
+        btn_delete.setBounds(new Rectangle(228, 72, 71, 23));
+        btn_delete.setText("删除");
+        btn_delete.addActionListener(new
+                Delete_coursePanel_btn_delete_actionAdapter(this));
+        btn_exit.setBounds(new Rectangle(320, 72, 69, 23));
+        btn_exit.setText("退出");
+        btn_exit.addActionListener(new
+                Delete_coursePanel_btn_exit_actionAdapter(this));
+        this.add(tcno);
+        this.add(jLabel1);
+        this.add(btn_delete);
+        this.add(btn_exit);
+        this.setVisible(true);               //可见性
+        this.setSize(600, 600);               //窗体大小
+    }
+    JTextField tcno = new JTextField();
+    JLabel jLabel1 = new JLabel();
+    JButton btn_delete = new JButton();
+    JButton btn_exit = new JButton();
+    public void btn_delete_actionPerformed(ActionEvent e) {
+        String cno=tcno.getText();            //获得课程编码
+        CourseManager cm = new CourseManager();
+        int ok = JOptionPane.showConfirmDialog(this,
+                "是否删除" + tcno.getText() + "课程？", "提示信息", JOptionPane.OK_CANCEL_OPTION);
+        if (ok == JOptionPane.OK_OPTION) {
+            int i=cm.deleteCourse(cno);        //调用删除课程信息方法
+            if (i > 0) {
+                JOptionPane.showMessageDialog(this, "删除成功！", "提示信息",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "你要删除的课程不存在！",
+                        "提示信息", JOptionPane.ERROR_MESSAGE);
+                tcno.setText("");
+            }
+            tcno.setText("");
+        }
+    }
+    public void btn_exit_actionPerformed(ActionEvent e) {
+        this.setVisible(false);
+    }
+    class Delete_coursePanel_btn_delete_actionAdapter implements ActionListener {
+        private Delete_coursePanel adaptee;
+        Delete_coursePanel_btn_delete_actionAdapter(Delete_coursePanel adaptee) {
+            this.adaptee = adaptee;
+        }
+        public void actionPerformed(ActionEvent e) {
+            adaptee.btn_delete_actionPerformed(e);
+        }
+    }
+}
+class Delete_coursePanel_btn_exit_actionAdapter implements ActionListener {
+    private Delete_coursePanel adaptee;
+    Delete_coursePanel_btn_exit_actionAdapter(Delete_coursePanel adaptee) {
+        this.adaptee = adaptee;
+    }
+    public void actionPerformed(ActionEvent e) {
+        adaptee.btn_exit_actionPerformed(e);
+    }
+}
